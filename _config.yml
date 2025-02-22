@@ -9,7 +9,7 @@
 # Basic Site Settings
 locale                   : "en-US"
 site_theme               : "default"
-title                    : "Elii|Home"
+title                    : "Yang | Home"
 title_separator          : "-"
 name                     : &name "Elii Yang"
 description              : &description "personal description"
