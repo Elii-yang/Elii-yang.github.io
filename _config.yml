@@ -22,7 +22,7 @@ repository               : "Elii-yang/Elii-yang.github.io"
 #               Additional customization can be done by editing /_includes/author-profile.html
 author:
   # Biographic information
-  avatar           : "images/profile.png"
+  avatar           : "profile.png"
   name             : "Elii Yang"
   pronouns         : # example: "she/her"  
   bio              : "The now is creative"
