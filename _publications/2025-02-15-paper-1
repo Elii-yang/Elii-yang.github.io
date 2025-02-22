@@ -1,0 +1,16 @@
+---
+title: "A generalized isogeometric-analysis-based method for assembly accuracy prediction considering non-ideal surface morphology and part deformation" # 标题
+collection: publications # 不用修改
+category: manuscripts # conferences/books/manuscripts(三选一)
+permalink: /publication/2025-02-15-paper-1 # 文件名及位置
+excerpt: 'Assembly accuracy generally determines the work performance of a precise mechanical product, and how to accurately predict it is highly concerned. However, previous methods cannot mostly consider the coupling effect of non-ideal surface morphology and part deformation, which are inevitably introduced during manufacturing and assembly processes. Therefore, this paper develops a novel assembly accuracy prediction method that considers non-ideal surface morphology and part deformation based on isogeometric analysis (IGA). First, the non-uniform rational B-spline (NURBS) is introduced to represent non-ideal surface morphology accurately. Next, we develop a contact detection method for non-ideal surfaces. Based on this, we propose a method to determine the initial contact state, implement a three-dimensional contact algorithm to solve the contact problem, and use IGA to calculate part deformation. Finally, the precision of the proposed method is verified by comparing it with traditional methods. The comparison indicates that the impact of non-ideal surface morphology and part deformation cannot be ignored. In addition, this paper uses NURBS as the basis of non-ideal surface morphology representation and part deformation analysis, eliminates the partition between computer aided design (CAD) and computer aided engineering (CAE), and realizes the high-precision prediction of assembly accuracy.' # 简介
+date: 2025-02-15 # 时间
+venue: 'Applied Mathematical Modelling' # 发布期刊
+slidesurl: 
+paperurl: 'https://doi.org/10.1016/j.apm.2025.116000' # 文章下载链接
+citation:
+---
+## Abstract
+
+Assembly accuracy generally determines the work performance of a precise mechanical product, and how to accurately predict it is highly concerned. However, previous methods cannot mostly consider the coupling effect of non-ideal surface morphology and part deformation, which are inevitably introduced during manufacturing and assembly processes. Therefore, this paper develops a novel assembly accuracy prediction method that considers non-ideal surface morphology and part deformation based on isogeometric analysis (IGA). First, the non-uniform rational B-spline (NURBS) is introduced to represent non-ideal surface morphology accurately. Next, we develop a contact detection method for non-ideal surfaces. Based on this, we propose a method to determine the initial contact state, implement a three-dimensional contact algorithm to solve the contact problem, and use IGA to calculate part deformation. Finally, the precision of the proposed method is verified by comparing it with traditional methods. The comparison indicates that the impact of non-ideal surface morphology and part deformation cannot be ignored. In addition, this paper uses NURBS as the basis of non-ideal surface morphology representation and part deformation analysis, eliminates the partition between computer aided design (CAD) and computer aided engineering (CAE), and realizes the high-precision prediction of assembly accuracy.
+
