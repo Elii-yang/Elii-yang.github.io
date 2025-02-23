@@ -8,6 +8,30 @@
    sorted by the dependencies. Also, the first two lines of the file are required by Jekyll.
  */
 
+$morandi-primary: #A3A380;
+$morandi-secondary: #C8C2AE;
+$morandi-accent: #D1D0CE;
+$morandi-background: #E5E5E5;
+$morandi-text: #5B5B5B;
+
+body {
+  background-color: $morandi-background;
+  color: $morandi-text;
+}
+
+.header {
+  background-color: $morandi-primary;
+}
+
+.footer {
+  background-color: $morandi-secondary;
+}
+
+.button {
+  background-color: $morandi-accent;
+  color: $morandi-text;
+}
+
 @import 
     "vendor/breakpoint/breakpoint",
 
