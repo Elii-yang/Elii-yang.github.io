@@ -8,7 +8,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { EnvelopeIcon as EnvelopeSolidIcon, MapPinIcon as MapPinSolidIcon } from '@heroicons/react/24/solid';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Github, Linkedin, Pin } from 'lucide-react';
+import { Coffee, Github, Linkedin, Pin } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
@@ -42,6 +42,35 @@ export default function Profile({ author, social, features, researchInterests }:
     const [isEmailPinned, setIsEmailPinned] = useState(false);
     const [lastClickedTooltip, setLastClickedTooltip] = useState<'email' | 'address' | null>(null);
     const [emailCopied, setEmailCopied] = useState(false);
+    const [showDonate, setShowDonate] = useState(false);
+    const [isDonatePinned, setIsDonatePinned] = useState(false);
+    const [hasWechatPay, setHasWechatPay] = useState(false);
+    const [hasAlipay, setHasAlipay] = useState(false);
+    const [qrImageSizes, setQrImageSizes] = useState<{ wechat?: { width: number; height: number }; alipay?: { width: number; height: number } }>({});
+
+    // Check for payment QR codes and get image sizes
+    useEffect(() => {
+        const checkAndLoadImage = (url: string, type: 'wechat' | 'alipay') => {
+            const img = document.createElement('img');
+            img.onload = () => {
+                if (type === 'wechat') {
+                    setHasWechatPay(true);
+                    setQrImageSizes(prev => ({ ...prev, wechat: { width: img.naturalWidth, height: img.naturalHeight } }));
+                } else {
+                    setHasAlipay(true);
+                    setQrImageSizes(prev => ({ ...prev, alipay: { width: img.naturalWidth, height: img.naturalHeight } }));
+                }
+            };
+            img.onerror = () => {
+                if (type === 'wechat') setHasWechatPay(false);
+                else setHasAlipay(false);
+            };
+            img.src = url;
+        };
+
+        checkAndLoadImage('/wechat-pay.jpg', 'wechat');
+        checkAndLoadImage('/alipay.jpg', 'alipay');
+    }, []);
 
     // Track page views with GitHub Gist
     useEffect(() => {
@@ -480,6 +509,113 @@ export default function Profile({ author, social, features, researchInterests }:
                                 {interest}
                             </span>
                         ))}
+                    </div>
+                </div>
+            )}
+
+            {/* Donate Button - Only show if payment methods available */}
+            {features.enable_likes && (hasWechatPay || hasAlipay) && (
+                <div className="flex justify-center mb-4">
+                    <div className="relative">
+                        <motion.button
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ duration: 0.3 }}
+                            onClick={() => {
+                                setShowDonate(!showDonate);
+                                setIsDonatePinned(!isDonatePinned);
+                                if (lastClickedTooltip !== 'donate') {
+                                    setLastClickedTooltip('donate' as 'email' | 'address');
+                                }
+                            }}
+                            onMouseEnter={() => !isDonatePinned && setShowDonate(true)}
+                            onMouseLeave={() => !isDonatePinned && setTimeout(() => setShowDonate(false), 150)}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="flex items-center space-x-2 px-4 py-2 rounded-lg font-medium text-sm bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 hover:bg-amber-200 dark:hover:bg-amber-900/40 transition-all duration-300 cursor-pointer"
+                            aria-label="Buy me a coffee"
+                        >
+                            <Coffee className="h-4 w-4" />
+                            <span>Coffee</span>
+                        </motion.button>
+
+                        {/* Donate QR Code Modal */}
+                        <AnimatePresence>
+                            {showDonate && (
+                                <motion.div
+                                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                                    transition={{ duration: 0.2 }}
+                                    className="absolute bottom-full mb-2 right-0 bg-white dark:bg-neutral-800 rounded-2xl shadow-2xl p-3 border-2 border-amber-200 dark:border-amber-700 z-50"
+                                    style={{ minWidth: hasWechatPay && hasAlipay ? '400px' : '250px' }}
+                                    onMouseEnter={() => setShowDonate(true)}
+                                    onMouseLeave={() => !isDonatePinned && setTimeout(() => setShowDonate(false), 150)}
+                                >
+                                    <div className="flex justify-between items-start mb-2">
+                                        <div className="text-center flex-1">
+                                            <h3 className="text-base font-bold text-primary dark:text-white mb-0.5">Buy Me a Coffee</h3>
+                                            <p className="text-xs text-neutral-500 dark:text-neutral-400">Thank you for your support!</p>
+                                        </div>
+                                        <button
+                                            onClick={() => {
+                                                setIsDonatePinned(!isDonatePinned);
+                                                if (!isDonatePinned && lastClickedTooltip !== 'donate') {
+                                                    setLastClickedTooltip('donate' as 'email' | 'address');
+                                                }
+                                            }}
+                                            className={`p-1.5 rounded-lg transition-colors duration-200 ${isDonatePinned
+                                                ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400'
+                                                : 'hover:bg-neutral-100 dark:hover:bg-neutral-700 text-neutral-400 dark:text-neutral-500'
+                                                }`}
+                                            aria-label={isDonatePinned ? 'Unpin donation modal' : 'Pin donation modal'}
+                                        >
+                                            <Pin className="h-4 w-4" />
+                                        </button>
+                                    </div>
+
+                                    <div className={`grid ${hasWechatPay && hasAlipay ? 'grid-cols-2' : 'grid-cols-1'} gap-2`}>
+                                        {/* WeChat Pay */}
+                                        {hasWechatPay && qrImageSizes.wechat && (
+                                            <div className="text-center">
+                                                <div className="bg-neutral-100 dark:bg-neutral-700 rounded-lg p-1 mb-2">
+                                                    <div className="bg-white rounded flex items-center justify-center mx-auto" style={{ width: 'auto', maxWidth: '200px' }}>
+                                                        <Image
+                                                            src="/wechat-pay.jpg"
+                                                            alt="WeChat Pay"
+                                                            width={qrImageSizes.wechat.width}
+                                                            height={qrImageSizes.wechat.height}
+                                                            className="rounded w-full h-auto"
+                                                            style={{ maxWidth: '200px', height: 'auto' }}
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <p className="text-xs font-medium text-green-600 dark:text-green-400">WeChat</p>
+                                            </div>
+                                        )}
+
+                                        {/* Alipay */}
+                                        {hasAlipay && qrImageSizes.alipay && (
+                                            <div className="text-center">
+                                                <div className="bg-neutral-100 dark:bg-neutral-700 rounded-lg p-1 mb-2">
+                                                    <div className="bg-white rounded flex items-center justify-center mx-auto" style={{ width: 'auto', maxWidth: '200px' }}>
+                                                        <Image
+                                                            src="/alipay.jpg"
+                                                            alt="Alipay"
+                                                            width={qrImageSizes.alipay.width}
+                                                            height={qrImageSizes.alipay.height}
+                                                            className="rounded w-full h-auto"
+                                                            style={{ maxWidth: '200px', height: 'auto' }}
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <p className="text-xs font-medium text-blue-600 dark:text-blue-400">Alipay</p>
+                                            </div>
+                                        )}
+                                    </div>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
                     </div>
                 </div>
             )}
