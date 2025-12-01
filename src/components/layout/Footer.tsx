@@ -3,11 +3,7 @@
 import { Pin } from 'lucide-react';
 import { useState } from 'react';
 
-interface FooterProps {
-  lastUpdated?: string;
-}
-
-export default function Footer({ lastUpdated }: FooterProps) {
+export default function Footer() {
   const [showTooltip, setShowTooltip] = useState(false);
   const [isTooltipPinned, setIsTooltipPinned] = useState(false);
   const [hideTimeout, setHideTimeout] = useState<NodeJS.Timeout | null>(null);
@@ -82,7 +78,7 @@ export default function Footer({ lastUpdated }: FooterProps) {
                     </p>
 
                     <p className="leading-relaxed hover:bg-neutral-700/50 rounded px-2 py-1 transition-colors duration-200 cursor-default">
-                      <span className="font-semibold">4. Disclaimer:</span> While reasonable efforts have been made to ensure accuracy, the information is provided "as is" without warranties of any kind. The author assumes no liability for errors, omissions, or damages arising from the use of this content.
+                      <span className="font-semibold">4. Disclaimer:</span> While reasonable efforts have been made to ensure accuracy, the information is provided &quot;as is&quot; without warranties of any kind. The author assumes no liability for errors, omissions, or damages arising from the use of this content.
                     </p>
 
                     <p className="leading-relaxed hover:bg-neutral-700/50 rounded px-2 py-1 transition-colors duration-200 cursor-default">
