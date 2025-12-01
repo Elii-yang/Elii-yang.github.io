@@ -100,7 +100,7 @@ export default function Profile({ author, social, features, researchInterests }:
                     setViewCount(storedCount ? parseInt(storedCount, 10) : 0);
                     setLikeCount(storedLikeCount ? parseInt(storedLikeCount, 10) : 0);
                 }
-            } catch (error) {
+            } catch {
                 // Fallback to localStorage on error
                 const storedCount = localStorage.getItem('website-view-count');
                 const storedLikeCount = localStorage.getItem('website-like-count');
@@ -144,7 +144,7 @@ export default function Profile({ author, social, features, researchInterests }:
                     }
                 })
             });
-        } catch (error) {
+        } catch {
             // Fallback to localStorage
             if (type === 'visits') {
                 localStorage.setItem('website-view-count', visits.toString());
