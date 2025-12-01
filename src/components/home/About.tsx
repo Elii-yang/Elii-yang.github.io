@@ -16,7 +16,7 @@ export default function About({ content, title = 'About' }: AboutProps) {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="relative"
         >
-            <h2 className="text-2xl font-serif font-bold text-primary mb-4">{title}</h2>
+            <h2 className="text-2xl font-serif font-bold text-primary mb-2">{title}</h2>
 
             <div className="relative group">
                 {/* Background gradient effects */}

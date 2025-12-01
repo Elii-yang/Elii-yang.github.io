@@ -17,14 +17,14 @@ export default function SelectedPublications({ publications, title = 'Selected P
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
         >
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center justify-between mb-2">
                 <h2 className="text-2xl font-serif font-bold text-primary">{title}</h2>
                 <Link
                     href={enableOnePageMode ? "/#publications" : "/publications"}
                     prefetch={true}
                     className="text-accent hover:text-accent-dark text-sm font-medium transition-all duration-200 rounded hover:bg-accent/10 hover:shadow-sm"
                 >
-                    View All →
+                    View All &rarr;
                 </Link>
             </div>
             <div className="space-y-4">

@@ -1,4 +1,6 @@
 import About from '@/components/home/About';
+import LatestProjects from '@/components/home/LatestProjects';
+import LatestResources from '@/components/home/LatestResources';
 import News, { NewsItem } from '@/components/home/News';
 import Profile from '@/components/home/Profile';
 import SelectedPublications from '@/components/home/SelectedPublications';
@@ -15,7 +17,7 @@ import { Publication } from '@/types/publication';
 // Define types for section config
 interface SectionConfig {
   id: string;
-  type: 'markdown' | 'publications' | 'list';
+  type: 'markdown' | 'publications' | 'list' | 'projects' | 'resources';
   title?: string;
   source?: string;
   filter?: string;
@@ -23,6 +25,8 @@ interface SectionConfig {
   content?: string;
   publications?: Publication[];
   items?: NewsItem[];
+  projects?: { title: string; date: string; content: string; tags?: string[]; image?: string; }[];
+  resources?: { title: string; subtitle?: string; date: string; content: string; tags?: string[]; link?: string; }[];
 }
 
 type PageData =
@@ -64,6 +68,32 @@ export default function Home() {
           return {
             ...section,
             items: newsData?.news || []
+          };
+        }
+        case 'projects': {
+          const projectsData = section.source ? getTomlContent<{ items: { title: string; date: string; content: string; tags?: string[]; image?: string; }[] }>(section.source) : null;
+          const allProjects = projectsData?.items || [];
+          // Sort by date (most recent first) and take the limit
+          const sortedProjects = allProjects.sort((a, b) => {
+            const dateA = a.date.split('-').pop() || '';
+            const dateB = b.date.split('-').pop() || '';
+            return parseInt(dateB) - parseInt(dateA);
+          });
+          return {
+            ...section,
+            projects: sortedProjects.slice(0, section.limit || 1)
+          };
+        }
+        case 'resources': {
+          const resourcesData = section.source ? getTomlContent<{ items: { title: string; subtitle?: string; date: string; content: string; tags?: string[]; link?: string; }[] }>(section.source) : null;
+          const allResources = resourcesData?.items || [];
+          // Sort by date (most recent first) and take the limit
+          const sortedResources = allResources.sort((a, b) => {
+            return parseInt(b.date) - parseInt(a.date);
+          });
+          return {
+            ...section,
+            resources: sortedResources.slice(0, section.limit || 1)
           };
         }
         default:
@@ -171,6 +201,24 @@ export default function Home() {
                         key={section.id}
                         items={section.items || []}
                         title={section.title}
+                      />
+                    );
+                  case 'projects':
+                    return (
+                      <LatestProjects
+                        key={section.id}
+                        projects={section.projects || []}
+                        title={section.title}
+                        enableOnePageMode={enableOnePageMode}
+                      />
+                    );
+                  case 'resources':
+                    return (
+                      <LatestResources
+                        key={section.id}
+                        resources={section.resources || []}
+                        title={section.title}
+                        enableOnePageMode={enableOnePageMode}
                       />
                     );
                   default:
