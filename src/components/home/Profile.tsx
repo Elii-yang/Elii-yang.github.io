@@ -8,7 +8,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { EnvelopeIcon as EnvelopeSolidIcon, MapPinIcon as MapPinSolidIcon } from '@heroicons/react/24/solid';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Coffee, Github, Linkedin } from 'lucide-react';
+import { Coffee, Github, Linkedin, Pin } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
