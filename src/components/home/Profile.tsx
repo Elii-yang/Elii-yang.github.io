@@ -43,38 +43,132 @@ export default function Profile({ author, social, features, researchInterests }:
     const [lastClickedTooltip, setLastClickedTooltip] = useState<'email' | 'address' | null>(null);
     const [emailCopied, setEmailCopied] = useState(false);
 
-    // Track page views
+    // Track page views with GitHub Gist
     useEffect(() => {
         if (!features.enable_likes) return;
 
-        // Get current view count
-        const storedCount = localStorage.getItem('website-view-count');
-        const currentCount = storedCount ? parseInt(storedCount, 10) : 0;
+        const GIST_ID = process.env.NEXT_PUBLIC_GIST_ID;
+        const GITHUB_TOKEN = process.env.NEXT_PUBLIC_GITHUB_TOKEN;
 
-        // Increment count
-        const newCount = currentCount + 1;
-        setViewCount(newCount);
-        localStorage.setItem('website-view-count', newCount.toString());
+        // Check if this is a new session
+        const sessionViewed = sessionStorage.getItem('website-session-viewed');
+        const sessionLiked = sessionStorage.getItem('website-session-liked');
+        setHasLiked(sessionLiked === 'true');
 
-        // Get like count (no longer storing hasLiked per session)
-        const storedLikeCount = localStorage.getItem('website-like-count');
-        setLikeCount(storedLikeCount ? parseInt(storedLikeCount, 10) : 0);
-        setHasLiked(false); // Reset like status for each new visit
+        // Fetch current counts from GitHub Gist
+        const fetchCounts = async () => {
+            if (!GIST_ID || !GITHUB_TOKEN) {
+                // Fallback to localStorage if no Gist configured
+                const storedCount = localStorage.getItem('website-view-count');
+                const storedLikeCount = localStorage.getItem('website-like-count');
+                setViewCount(storedCount ? parseInt(storedCount, 10) : 0);
+                setLikeCount(storedLikeCount ? parseInt(storedLikeCount, 10) : 0);
+                return;
+            }
+
+            try {
+                const response = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
+                    headers: {
+                        'Authorization': `Bearer ${GITHUB_TOKEN}`,
+                        'Accept': 'application/vnd.github+json',
+                        'X-GitHub-Api-Version': '2022-11-28'
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    const statsFile = data.files['website-stats.json'];
+                    if (statsFile && statsFile.content) {
+                        const stats = JSON.parse(statsFile.content);
+
+                        // Increment view count for new sessions
+                        if (!sessionViewed) {
+                            const newVisits = stats.visits + 1;
+                            setViewCount(newVisits);
+                            setLikeCount(stats.likes || 0);
+                            await updateGistCount('visits', newVisits, stats.likes);
+                            sessionStorage.setItem('website-session-viewed', 'true');
+                        } else {
+                            setViewCount(stats.visits || 0);
+                            setLikeCount(stats.likes || 0);
+                        }
+                    }
+                } else {
+                    // Fallback to localStorage on error
+                    const storedCount = localStorage.getItem('website-view-count');
+                    const storedLikeCount = localStorage.getItem('website-like-count');
+                    setViewCount(storedCount ? parseInt(storedCount, 10) : 0);
+                    setLikeCount(storedLikeCount ? parseInt(storedLikeCount, 10) : 0);
+                }
+            } catch (error) {
+                // Fallback to localStorage on error
+                const storedCount = localStorage.getItem('website-view-count');
+                const storedLikeCount = localStorage.getItem('website-like-count');
+                setViewCount(storedCount ? parseInt(storedCount, 10) : 0);
+                setLikeCount(storedLikeCount ? parseInt(storedLikeCount, 10) : 0);
+            }
+        };
+
+        fetchCounts();
     }, [features.enable_likes]);
 
-    const handleLike = () => {
+    // Helper function to update Gist
+    const updateGistCount = async (type: 'visits' | 'likes', visits: number, likes: number) => {
+        const GIST_ID = process.env.NEXT_PUBLIC_GIST_ID;
+        const GITHUB_TOKEN = process.env.NEXT_PUBLIC_GITHUB_TOKEN;
+
+        if (!GIST_ID || !GITHUB_TOKEN) {
+            // Fallback to localStorage
+            if (type === 'visits') {
+                localStorage.setItem('website-view-count', visits.toString());
+            } else {
+                localStorage.setItem('website-like-count', likes.toString());
+            }
+            return;
+        }
+
+        try {
+            await fetch(`https://api.github.com/gists/${GIST_ID}`, {
+                method: 'PATCH',
+                headers: {
+                    'Authorization': `Bearer ${GITHUB_TOKEN}`,
+                    'Accept': 'application/vnd.github+json',
+                    'X-GitHub-Api-Version': '2022-11-28',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    files: {
+                        'website-stats.json': {
+                            content: JSON.stringify({ visits, likes }, null, 2)
+                        }
+                    }
+                })
+            });
+        } catch (error) {
+            // Fallback to localStorage
+            if (type === 'visits') {
+                localStorage.setItem('website-view-count', visits.toString());
+            } else {
+                localStorage.setItem('website-like-count', likes.toString());
+            }
+        }
+    };
+
+    const handleLike = async () => {
         if (hasLiked) {
-            // Unlike
+            // Unlike - decrement via Gist
             const newLikeCount = Math.max(0, likeCount - 1);
             setLikeCount(newLikeCount);
             setHasLiked(false);
-            localStorage.setItem('website-like-count', newLikeCount.toString());
+            sessionStorage.removeItem('website-session-liked');
+            await updateGistCount('likes', viewCount, newLikeCount);
         } else {
-            // Like
+            // Like - increment via Gist
             const newLikeCount = likeCount + 1;
             setLikeCount(newLikeCount);
             setHasLiked(true);
-            localStorage.setItem('website-like-count', newLikeCount.toString());
+            sessionStorage.setItem('website-session-liked', 'true');
+            await updateGistCount('likes', viewCount, newLikeCount);
         }
     };
 

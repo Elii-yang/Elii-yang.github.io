@@ -31,6 +31,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Create environment file
+        run: |
+          echo "NEXT_PUBLIC_GIST_ID=${{ secrets.GIST_ID }}" > .env.local
+          echo "NEXT_PUBLIC_GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}" >> .env.local
+
       - name: Build with Next.js
         run: npm run build
 
