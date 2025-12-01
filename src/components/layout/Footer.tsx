@@ -59,8 +59,8 @@ export default function Footer() {
                       }}
                       className="flex items-center space-x-1 text-xs px-2 py-0.5 rounded bg-neutral-700 hover:bg-neutral-600 transition-colors ml-2"
                     >
-                      <Pin className={`h-3 w-3 ${isTooltipPinned ? 'rotate-45' : ''} transition-transform`} />
-                      <span>{isTooltipPinned ? 'Unpin' : 'Pin'}</span>
+                      <Pin className={`h-3 w-3 dark:text-neutral-300 ${isTooltipPinned ? 'rotate-45' : ''} transition-transform`} />
+                      <span className="dark:text-neutral-300">{isTooltipPinned ? 'Unpin' : 'Pin'}</span>
                     </button>
                   </div>
 

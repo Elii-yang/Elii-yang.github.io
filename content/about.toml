@@ -4,6 +4,8 @@ title = "About"
 [profile]
 research_interests = [
   "Computational Mechanics",
+  "FEM",
+  "BEM",
   "Isogeometric Analysis",
   "Precision Assembly"
 ]

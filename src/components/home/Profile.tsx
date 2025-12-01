@@ -10,6 +10,7 @@ import { EnvelopeIcon as EnvelopeSolidIcon, MapPinIcon as MapPinSolidIcon } from
 import { AnimatePresence, motion } from 'framer-motion';
 import { Github, Linkedin, Pin } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 // Custom ORCID icon component
@@ -132,7 +133,7 @@ export default function Profile({ author, social, features, researchInterests }:
             className="sticky top-8"
         >
             {/* Profile Image */}
-            <div className="relative w-64 h-64 mx-auto mb-6 group">
+            <Link href="/cv" className="block relative w-64 h-64 mx-auto mb-6 group cursor-pointer">
                 {/* Decorative border layers */}
                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-accent/30 via-accent/10 to-transparent group-hover:from-accent/50 group-hover:via-accent/20 transition-all duration-500 blur-xl group-hover:blur-2xl"></div>
                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-tr from-transparent via-accent/20 to-accent/30 group-hover:via-accent/30 group-hover:to-accent/50 transition-all duration-500 blur-xl group-hover:blur-2xl"></div>
@@ -154,13 +155,15 @@ export default function Profile({ author, social, features, researchInterests }:
                 {/* Corner accents */}
                 <div className="absolute -top-2 -left-2 w-8 h-8 border-t-4 border-l-4 border-accent rounded-tl-2xl opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:w-12 group-hover:h-12"></div>
                 <div className="absolute -bottom-2 -right-2 w-8 h-8 border-b-4 border-r-4 border-accent rounded-br-2xl opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:w-12 group-hover:h-12"></div>
-            </div>
+            </Link>
 
             {/* Name and Title */}
             <div className="text-center mb-6">
-                <h1 className="text-3xl font-serif font-bold text-primary mb-2">
-                    {author.name}
-                </h1>
+                <Link href="/cv" className="inline-block group">
+                    <h1 className="text-3xl font-serif font-bold text-primary mb-2 hover:text-accent transition-colors duration-300 cursor-pointer">
+                        {author.name}
+                    </h1>
+                </Link>
                 {author.english_name && (
                     <p className="text-base text-neutral-500 dark:text-neutral-400 mb-2 italic">
                         (English name: {author.english_name})
@@ -231,8 +234,8 @@ export default function Profile({ author, social, features, researchInterests }:
                                                         }}
                                                         className="flex items-center space-x-1 text-xs px-2 py-0.5 rounded bg-neutral-700 hover:bg-neutral-600 transition-colors"
                                                     >
-                                                        <Pin className={`h-3 w-3 ${isAddressPinned ? 'rotate-45' : ''} transition-transform`} />
-                                                        <span>{isAddressPinned ? 'Unpin' : 'Pin'}</span>
+                                                        <Pin className={`h-3 w-3 dark:text-neutral-300 ${isAddressPinned ? 'rotate-45' : ''} transition-transform`} />
+                                                        <span className="dark:text-neutral-300">{isAddressPinned ? 'Unpin' : 'Pin'}</span>
                                                     </button>
                                                 </div>
                                                 {social.location_details?.map((line, i) => (
@@ -313,8 +316,8 @@ export default function Profile({ author, social, features, researchInterests }:
                                                         }}
                                                         className="flex items-center space-x-1 text-xs px-2 py-0.5 rounded bg-neutral-700 hover:bg-neutral-600 transition-colors"
                                                     >
-                                                        <Pin className={`h-3 w-3 ${isEmailPinned ? 'rotate-45' : ''} transition-transform`} />
-                                                        <span>{isEmailPinned ? 'Unpin' : 'Pin'}</span>
+                                                        <Pin className={`h-3 w-3 dark:text-neutral-300 ${isEmailPinned ? 'rotate-45' : ''} transition-transform`} />
+                                                        <span className="dark:text-neutral-300">{isEmailPinned ? 'Unpin' : 'Pin'}</span>
                                                     </button>
                                                 </div>
                                                 <p className="break-words">{social.email?.replace('@', ' (at) ')}</p>
@@ -325,8 +328,8 @@ export default function Profile({ author, social, features, researchInterests }:
                                                             handleCopyEmail();
                                                         }}
                                                         className={`inline-flex items-center justify-center space-x-2 px-3 py-1 rounded-md text-xs font-medium transition-all duration-200 w-full sm:w-auto ${emailCopied
-                                                                ? 'bg-green-600 hover:bg-green-700 text-white'
-                                                                : 'bg-accent hover:bg-accent-dark text-white'
+                                                            ? 'bg-green-600 hover:bg-green-700 text-white'
+                                                            : 'bg-accent hover:bg-accent-dark text-white'
                                                             }`}
                                                     >
                                                         {emailCopied ? (
