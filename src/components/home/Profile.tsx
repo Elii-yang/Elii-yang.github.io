@@ -40,7 +40,7 @@ export default function Profile({ author, social, features, researchInterests }:
     const [isAddressPinned, setIsAddressPinned] = useState(false);
     const [showEmail, setShowEmail] = useState(false);
     const [isEmailPinned, setIsEmailPinned] = useState(false);
-    const [lastClickedTooltip, setLastClickedTooltip] = useState<'email' | 'address' | null>(null);
+    const [lastClickedTooltip, setLastClickedTooltip] = useState<'email' | 'address' | 'donate' | null>(null);
     const [emailCopied, setEmailCopied] = useState(false);
     const [showDonate, setShowDonate] = useState(false);
     const [isDonatePinned, setIsDonatePinned] = useState(false);
@@ -525,7 +525,7 @@ export default function Profile({ author, social, features, researchInterests }:
                                 setShowDonate(!showDonate);
                                 setIsDonatePinned(!isDonatePinned);
                                 if (lastClickedTooltip !== 'donate') {
-                                    setLastClickedTooltip('donate' as 'email' | 'address');
+                                    setLastClickedTooltip('donate');
                                 }
                             }}
                             onMouseEnter={() => !isDonatePinned && setShowDonate(true)}
@@ -561,7 +561,7 @@ export default function Profile({ author, social, features, researchInterests }:
                                             onClick={() => {
                                                 setIsDonatePinned(!isDonatePinned);
                                                 if (!isDonatePinned && lastClickedTooltip !== 'donate') {
-                                                    setLastClickedTooltip('donate' as 'email' | 'address');
+                                                    setLastClickedTooltip('donate');
                                                 }
                                             }}
                                             className={`p-1.5 rounded-lg transition-colors duration-200 ${isDonatePinned
