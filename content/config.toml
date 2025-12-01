@@ -1,0 +1,63 @@
+[site]
+title = "Yitao Yang"
+description = "PhD student at Xi'an Jiaotong University."
+favicon = "/favicon.svg"
+last_updated = "November 28, 2025"
+
+[author]
+name = "Yitao Yang"
+english_name = "Eli Yang"
+title = "PhD Student"
+institution = "Xi'an Jiaotong University"
+avatar = "/G_1.jpg"
+
+[social]
+# Contact information (leave blank or delete to hide)
+
+email = "yitaoyang@stu.xjtu.edu.cn"
+location = "Xi'an, China"
+location_url = "https://maps.google.com"
+location_details = [
+  "Xi'an Jiaotong University,",
+  "Xi'an, Shaanxi, China"
+]
+google_scholar = "https://scholar.google.com/citations?user=dh53qm0AAAAJ&hl=zh-CN"
+orcid = "https://orcid.org/0009-0003-6071-8938"
+
+
+[features]
+# Show a like button on the about page
+enable_likes = true
+
+# Display all subpages on a single page
+enable_one_page_mode = false
+
+[[navigation]]
+title = "About"
+type = "page"
+target = "about"
+href = "/"
+
+[[navigation]]
+title = "Publications"
+type = "page"
+target = "publications"
+href = "/publications"
+
+[[navigation]]
+title = "Projects"
+type = "page"
+target = "projects"
+href = "/projects"
+
+[[navigation]]
+title = "Resources"
+type = "page"
+target = "resources"
+href = "/resources"
+
+[[navigation]]
+title = "CV"
+type = "page"
+target = "cv"
+href = "/cv"

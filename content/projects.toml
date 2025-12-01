@@ -1,0 +1,10 @@
+type = "card"
+title = "Projects"
+description = "Research projects and software development"
+
+[[items]]
+title = "Digital Assembly Technology for Precision Spindles"
+date = "2021-2024"
+content = "**Project Description:** Constructed a digital assembly model for precision spindles using measured data.\n\n**My Contribution:** Implemented digital modeling of precision spindles using APDL language, integrated measured data into the digital model, performed deformation analysis under stable rotational speeds, and predicted final assembly accuracy."
+tags = ["ANSYS", "APDL", "Precision Assembly", "Digital Modeling"]
+image = "/projects/P_1.png"

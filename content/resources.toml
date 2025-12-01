@@ -1,0 +1,35 @@
+type = "card"
+title = "Resources"
+description = "Useful resources including notes, presentations, and software packages"
+
+[[items]]
+title = "Postgraduate Entrance Exam Math Notes"
+subtitle = "Advanced Mathematics"
+date = "2021"
+content = "Study notes for advanced mathematics section of the postgraduate entrance examination."
+tags = ["Notes", "Mathematics", "Exam Preparation"]
+link = "/resources/N_1.pdf"
+
+[[items]]
+title = "Postgraduate Entrance Exam Math Notes"
+subtitle = "Linear Algebra"
+date = "2021"
+content = "Study notes for linear algebra section of the postgraduate entrance examination."
+tags = ["Notes", "Mathematics", "Exam Preparation"]
+link = "/resources/N_2.pdf"
+
+[[items]]
+title = "Postgraduate Entrance Exam Math Notes"
+subtitle = "Probability Theory and Mathematical Statistics"
+date = "2021"
+content = "Study notes for probability theory and mathematical statistics section of the postgraduate entrance examination."
+tags = ["Notes", "Mathematics", "Exam Preparation"]
+link = "/resources/N_3.pdf"
+
+[[items]]
+title = "Postgraduate Entrance Exam English Notes"
+subtitle = "English"
+date = "2021"
+content = "Study notes for English section of the postgraduate entrance examination."
+tags = ["Notes", "English", "Exam Preparation"]
+link = "/resources/N_4.pdf"
