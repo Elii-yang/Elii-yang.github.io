@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { Download } from 'lucide-react';
 import Link from 'next/link';
 
 interface ResourceItem {
@@ -87,9 +88,10 @@ export default function LatestResources({ resources, title = 'Latest Resources',
                                         href={resource.link}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="text-xs text-accent hover:text-accent-dark font-medium transition-colors duration-200"
+                                        className="text-accent hover:text-accent-dark transition-colors duration-200"
+                                        aria-label="Download"
                                     >
-                                        View &rarr;
+                                        <Download className="h-4 w-4" />
                                     </a>
                                 )}
                             </div>
