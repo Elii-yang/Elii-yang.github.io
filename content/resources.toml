@@ -3,6 +3,38 @@ title = "Resources"
 description = "Useful resources including notes, presentations, and software packages"
 
 [[items]]
+title = "Numerical Methods for Partial Differential Equations"
+subtitle = "Self-Study Notes"
+date = "2022-2023"
+content = "Study notes for Numerical Methods for PDEs course, including learning materials for GeoPDEs library."
+tags = ["Notes", "Mathematics", "PDEs", "GeoPDEs"]
+link = "/resources/22_23PWFFC.pdf"
+
+[[items]]
+title = "Applied Mathematical Statistics Course Notes"
+subtitle = "Xi'an Jiaotong University Course"
+date = "2022-02"
+content = "Study notes for Applied Mathematical Statistics course at Xi'an Jiaotong University."
+tags = ["Notes", "Mathematics", "Statistics"]
+link = "/resources/220225YYSLTJ.pdf"
+
+[[items]]
+title = "Modern Control Engineering Course Notes"
+subtitle = "Xi'an Jiaotong University Course"
+date = "2022-02"
+content = "Study notes for Modern Control Engineering course at Xi'an Jiaotong University."
+tags = ["Notes", "Control Engineering", "Engineering"]
+link = "/resources/220226XDKZ.pdf"
+
+[[items]]
+title = "Numerical Analysis Course Notes"
+subtitle = "Xi'an Jiaotong University Course"
+date = "2022-03"
+content = "Study notes for Numerical Analysis course at Xi'an Jiaotong University."
+tags = ["Notes", "Mathematics", "Numerical Analysis"]
+link = "/resources/220331SZFX.pdf"
+
+[[items]]
 title = "Postgraduate Entrance Exam Math Notes"
 subtitle = "Advanced Mathematics"
 date = "2021"
