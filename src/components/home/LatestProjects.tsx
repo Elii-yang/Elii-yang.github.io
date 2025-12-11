@@ -46,17 +46,18 @@ export default function LatestProjects({ projects, title = 'Latest Projects', en
                     >
                         <div className="absolute inset-0 pointer-events-none rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                             <div className="absolute inset-0 bg-gradient-to-br from-accent/10 via-transparent to-accent/5 rounded-2xl" />
+                            <div className="absolute inset-0 bg-gradient-to-tl from-transparent via-accent/5 to-transparent rounded-2xl" />
                         </div>
 
                         <div className="relative bg-white dark:bg-neutral-900/50 border-2 border-neutral-200 dark:border-neutral-800 rounded-2xl p-4 shadow-md hover:shadow-xl hover:border-accent/30 dark:hover:border-accent/30 transition-all duration-300 group-hover:scale-[1.01]">
                             <div className="flex flex-col sm:flex-row gap-4">
                                 {project.image && (
-                                    <div className="relative w-full sm:w-32 h-32 flex-shrink-0 rounded-lg overflow-hidden bg-neutral-100 dark:bg-neutral-800">
+                                    <div className="relative w-full sm:w-32 h-32 flex-shrink-0 rounded-lg overflow-hidden bg-neutral-100 dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700">
                                         <Image
                                             src={project.image}
                                             alt={project.title}
                                             fill
-                                            className="object-cover"
+                                            className="object-cover hover:scale-110 transition-all duration-300"
                                         />
                                     </div>
                                 )}

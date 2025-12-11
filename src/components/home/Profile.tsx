@@ -547,9 +547,8 @@ export default function Profile({ author, social, features, researchInterests }:
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ duration: 0.3 }}
                             onClick={() => setShowDonate(!showDonate)}
-                            whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            className="flex items-center space-x-2 px-4 py-2 rounded-lg font-medium text-sm bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 hover:bg-amber-200 dark:hover:bg-amber-900/40 transition-all duration-300 cursor-pointer"
+                            className="flex items-center space-x-2 px-4 py-2 rounded-lg font-medium text-sm bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 hover:bg-amber-200 dark:hover:bg-amber-900/40 hover:scale-105 transition-all duration-200 cursor-pointer"
                             aria-label="Buy me a coffee"
                         >
                             <Coffee className="h-4 w-4" />
@@ -626,8 +625,7 @@ export default function Profile({ author, social, features, researchInterests }:
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.3 }}
-                        whileHover={{ scale: 1.05 }}
-                        className="flex items-center space-x-2 px-4 py-2 rounded-lg font-medium text-sm bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-500 hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors duration-300 cursor-default"
+                        className="flex items-center space-x-2 px-4 py-2 rounded-lg font-medium text-sm bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-500 hover:bg-neutral-200 dark:hover:bg-neutral-700 hover:scale-105 transition-all duration-200 cursor-default"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-4 w-4">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
@@ -642,9 +640,8 @@ export default function Profile({ author, social, features, researchInterests }:
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.3, delay: 0.1 }}
                         onClick={handleLike}
-                        whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-medium text-sm transition-all duration-300 cursor-pointer ${hasLiked
+                        className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-medium text-sm hover:scale-105 transition-all duration-200 cursor-pointer ${hasLiked
                             ? 'bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400'
                             : 'bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-500 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-500 dark:hover:text-red-400'
                             }`}
