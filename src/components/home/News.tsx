@@ -16,7 +16,8 @@ interface NewsProps {
     title?: string;
 }
 
-export default function News({ items, title = 'Latest News' }: NewsProps) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export default function News({ items, title: _title = 'Latest News' }: NewsProps) {
     const { language } = useLanguage();
     const [isExpanded, setIsExpanded] = useState(false);
     const hasMoreNews = items.length > 1;

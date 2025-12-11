@@ -10,7 +10,8 @@ interface AboutProps {
     title?: string;
 }
 
-export default function About({ content, title = 'About' }: AboutProps) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export default function About({ content, title: _title = 'About' }: AboutProps) {
     const { language } = useLanguage();
     const translatedTitle = getTranslation(language, 'sections', 'about');
     return (

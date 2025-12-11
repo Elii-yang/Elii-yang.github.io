@@ -12,7 +12,8 @@ interface SelectedPublicationsProps {
     enableOnePageMode?: boolean;
 }
 
-export default function SelectedPublications({ publications, title = 'Selected Publications', enableOnePageMode = false }: SelectedPublicationsProps) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export default function SelectedPublications({ publications, title: _title = 'Selected Publications', enableOnePageMode = false }: SelectedPublicationsProps) {
     const { language } = useLanguage();
     const translatedTitle = getTranslation(language, 'sections', 'selectedPublications');
     return (

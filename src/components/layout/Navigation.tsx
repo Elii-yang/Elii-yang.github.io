@@ -19,7 +19,8 @@ interface NavigationProps {
   enableOnePageMode?: boolean;
 }
 
-export default function Navigation({ items, siteTitle, enableOnePageMode }: NavigationProps) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export default function Navigation({ items, siteTitle: _siteTitle, enableOnePageMode }: NavigationProps) {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [activeHash, setActiveHash] = useState('');

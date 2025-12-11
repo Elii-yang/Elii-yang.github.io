@@ -21,7 +21,8 @@ interface LatestResourcesProps {
     enableOnePageMode?: boolean;
 }
 
-export default function LatestResources({ resources, title = 'Latest Resources', enableOnePageMode = false }: LatestResourcesProps) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export default function LatestResources({ resources, title: _title = 'Latest Resources', enableOnePageMode = false }: LatestResourcesProps) {
     const { language } = useLanguage();
     const translatedTitle = getTranslation(language, 'sections', 'latestResources');
     return (

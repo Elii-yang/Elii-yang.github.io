@@ -20,7 +20,8 @@ interface LatestProjectsProps {
     enableOnePageMode?: boolean;
 }
 
-export default function LatestProjects({ projects, title = 'Latest Projects', enableOnePageMode = false }: LatestProjectsProps) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export default function LatestProjects({ projects, title: _title = 'Latest Projects', enableOnePageMode = false }: LatestProjectsProps) {
     const { language } = useLanguage();
     const translatedTitle = getTranslation(language, 'sections', 'latestProjects');
     return (

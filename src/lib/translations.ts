@@ -34,7 +34,7 @@ export const translations = {
 } as const;
 
 export function getTranslation(lang: Language, category: keyof typeof translations, key: string): string {
-  const categoryObj = translations[category] as any;
+  const categoryObj = translations[category] as Record<string, { en: string; zh: string }>;
   if (categoryObj && categoryObj[key]) {
     return categoryObj[key][lang] || categoryObj[key].en;
   }
