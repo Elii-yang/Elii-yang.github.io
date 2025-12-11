@@ -2,6 +2,7 @@
 
 import { resolveTheme, useThemeStore } from '@/lib/stores/themeStore';
 import { AnimatePresence, motion } from 'framer-motion';
+import { ArrowUp } from 'lucide-react';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 
@@ -189,23 +190,22 @@ export default function JadeRabbitOsmanthus() {
         )}
       </AnimatePresence>
 
-      {/* Decorations Container - Now Absolute relative to Footer */}
-      {/* Positioned at bottom: 100% of the footer (sitting on top) */}
-      <div className="absolute bottom-full left-0 w-full h-0 z-0 hidden lg:flex items-end justify-between px-4 pointer-events-none">
+      {/* Decorations Container - Only show on xl and above */}
+      <div className="absolute bottom-full left-0 w-full h-0 z-10 hidden xl:flex items-end justify-between px-4 pointer-events-none">
 
-        {/* Jade Rabbit - Moves in from Left */}
-        <div className="pointer-events-auto relative w-32 h-32 mb-0 ml-32">
+        {/* Jade Rabbit - Responsive sizing */}
+        <div className="pointer-events-auto relative mb-0 w-32 h-32 2xl:w-40 2xl:h-40 ml-24 2xl:ml-32 max-w-[8vw] max-h-[8vw]">
           <AnimatePresence>
             {mode === 'normal' && (
               <motion.div
-                className="w-full h-full cursor-pointer mix-blend-screen"
+                className="w-full h-full cursor-pointer mix-blend-screen opacity-60 hover:opacity-100"
                 initial={{ opacity: 0, x: -100 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                whileInView={{ opacity: 0.6, x: 0 }}
                 viewport={{ once: false, amount: 0.5 }}
                 exit={{ opacity: 0, scale: 0, filter: "blur(20px)" }}
                 transition={{ duration: 0.8, ease: "easeOut" }}
                 onClick={() => setMode('particles')}
-                whileHover={{ scale: 1.1, filter: "drop-shadow(0 0 15px rgba(255, 223, 128, 0.8))" }}
+                whileHover={{ scale: 1.1, opacity: 1, filter: "drop-shadow(0 0 15px rgba(255, 223, 128, 0.8))" }}
               >
                 <Image
                   src={isDark ? "/images/decorations/jade_rabbit2.png" : "/images/decorations/jade_rabbit.png"}
@@ -218,17 +218,17 @@ export default function JadeRabbitOsmanthus() {
           </AnimatePresence>
         </div>
 
-        {/* Osmanthus Tree - Grows from Bottom */}
+        {/* Osmanthus Tree - Responsive sizing */}
         <div className="flex items-end relative">
           <div
-            className="pointer-events-auto relative w-64 h-80 mr-12 translate-y-10 cursor-pointer origin-bottom"
+            className="pointer-events-auto relative translate-y-10 cursor-pointer origin-bottom w-64 h-80 2xl:w-80 2xl:h-96 mr-20 2xl:mr-24 max-w-[12vw] max-h-[15vw]"
             onClick={handleTreeClick}
             title="Click to scroll to top"
           >
             <motion.div
-              className="w-full h-full"
+              className="w-full h-full opacity-60 hover:opacity-100"
               initial={{ opacity: 0 }}
-              whileInView={{ opacity: 0.8 }}
+              whileInView={{ opacity: 0.6 }}
               viewport={{ once: false, amount: 0.1 }}
               transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
               whileHover={{ scale: 1.05, opacity: 1, filter: "drop-shadow(0 0 15px rgba(255, 223, 128, 0.8))" }}
@@ -266,6 +266,23 @@ export default function JadeRabbitOsmanthus() {
           </AnimatePresence>
         </div>
       </div>
+
+      {/* Standard Back to Top Button - Visible on screens below xl */}
+      <AnimatePresence>
+        {showScrollIndicator && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0.5, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.5, y: 20 }}
+            transition={{ duration: 0.2 }}
+            onClick={handleTreeClick}
+            className="xl:hidden fixed bottom-8 right-8 z-50 p-3 rounded-full bg-accent hover:bg-accent-dark text-white shadow-lg hover:shadow-xl transition-all duration-300 group"
+            aria-label="Back to top"
+          >
+            <ArrowUp className="h-6 w-6 group-hover:animate-bounce" />
+          </motion.button>
+        )}
+      </AnimatePresence>
     </>
   );
 }
