@@ -16,7 +16,6 @@ interface NewsProps {
 
 export default function News({ items, title = 'Latest News' }: NewsProps) {
     const [isExpanded, setIsExpanded] = useState(false);
-    const displayItems = isExpanded ? items : items.slice(0, 1);
     const hasMoreNews = items.length > 1;
 
     return (
