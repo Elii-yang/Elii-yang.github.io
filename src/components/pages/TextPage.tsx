@@ -56,9 +56,9 @@ export default function TextPage({ config, content, contentZh, embedded = false 
             {/* CV Profile Section with Photo */}
             {isCVPage && profileSection && (
                 <div className="mb-8 p-6 bg-white/50 dark:bg-neutral-800/50 rounded-lg border border-neutral-200 dark:border-neutral-700">
-                    <div className="flex gap-6 items-start">
+                    <div className="flex flex-col md:flex-row gap-6 items-start">
                         {/* Photo - ID card size */}
-                        <div className="flex-shrink-0">
+                        <div className="flex-shrink-0 mx-auto md:mx-0">
                             <Image
                                 src="/yyt.jpg"
                                 alt="Yitao Yang"

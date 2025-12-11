@@ -62,16 +62,18 @@ export default function CardPage({ config, embedded = false }: { config: CardPag
                                         </span>
                                     )}
                                 </div>
-                                <div className={item.image ? "flex gap-6" : ""}>
+                                <div className={item.image ? "flex flex-col md:flex-row gap-6" : ""}>
                                     {item.image && (
-                                        <div className="flex-shrink-0 w-48 h-48 rounded-lg overflow-hidden bg-neutral-100 dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700">
-                                            <Image
-                                                src={item.image}
-                                                alt={item.title}
-                                                width={192}
-                                                height={192}
-                                                className="w-full h-full object-cover hover:scale-110 transition-all duration-300"
-                                            />
+                                        <div className="w-full md:w-48 flex-shrink-0">
+                                            <div className="aspect-video md:aspect-square relative rounded-lg overflow-hidden bg-neutral-100 dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700">
+                                                <Image
+                                                    src={item.image}
+                                                    alt={item.title}
+                                                    fill
+                                                    className="object-cover hover:scale-110 transition-all duration-300"
+                                                    sizes="(max-width: 768px) 100vw, 192px"
+                                                />
+                                            </div>
                                         </div>
                                     )}
                                     <div className="flex-1">
