@@ -199,7 +199,7 @@ export default function JadeRabbitOsmanthus() {
 
         {/* Osmanthus Tree - Grows from Bottom */}
         <div
-          className="pointer-events-auto relative w-64 h-80 mr-32 translate-y-10 cursor-pointer origin-bottom"
+          className="pointer-events-auto relative w-64 h-80 mr-24 translate-y-10 cursor-pointer origin-bottom"
           onClick={() => setMode('normal')}
           title="Click the tree to call the rabbit back"
         >
@@ -209,13 +209,13 @@ export default function JadeRabbitOsmanthus() {
             whileInView={{ opacity: 0.8 }}
             viewport={{ once: false, amount: 0.1 }}
             transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
-            whileHover={{ scale: 1.05, opacity: 1 }}
+            whileHover={{ scale: 1.05, opacity: 1, filter: "drop-shadow(0 0 10px white)" }}
           >
             <Image
               src="/images/decorations/osmanthus_tree.png"
               alt="Osmanthus Tree"
               fill
-              className="object-contain drop-shadow-[0_0_15px_rgba(255,215,0,0.3)] mix-blend-screen"
+              className="object-contain mix-blend-screen"
             />
           </motion.div>
         </div>
