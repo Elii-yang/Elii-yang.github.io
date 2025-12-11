@@ -1,5 +1,6 @@
 "use client";
 
+import { resolveTheme, useThemeStore } from '@/lib/stores/themeStore';
 import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
@@ -16,11 +17,41 @@ interface Particle {
 }
 
 export default function JadeRabbitOsmanthus() {
+  const { theme } = useThemeStore();
+  const [isDark, setIsDark] = useState(false);
+  const isDarkRef = useRef(false); // Ref to access state inside animation loop
+  const [mounted, setMounted] = useState(false);
   const [mode, setMode] = useState<'normal' | 'particles'>('normal');
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const requestRef = useRef<number>(0); // Initialize with 0
+  const requestRef = useRef<number>(0);
   const particles = useRef<Particle[]>([]);
+
+  // Fix hydration mismatch and handle theme resolution
+  useEffect(() => {
+    setMounted(true);
+
+    // Initial check
+    const updateTheme = () => {
+      const dark = resolveTheme(theme) === 'dark';
+      setIsDark(dark);
+      isDarkRef.current = dark; // Update ref
+    };
+    updateTheme();
+
+    // Listen for system changes if needed
+    let media: MediaQueryList | null = null;
+    const listener = () => updateTheme();
+
+    if (theme === 'system' && typeof window !== 'undefined') {
+      media = window.matchMedia('(prefers-color-scheme: dark)');
+      media.addEventListener('change', listener);
+    }
+
+    return () => {
+      if (media) media.removeEventListener('change', listener);
+    };
+  }, [theme]);
 
   // Track mouse position
   useEffect(() => {
@@ -34,11 +65,11 @@ export default function JadeRabbitOsmanthus() {
   // Initialize particles when switching to particle mode
   useEffect(() => {
     if (mode === 'particles') {
-      const particleCount = 100;
+      const particleCount = 30;
       const newParticles: Particle[] = [];
       for (let i = 0; i < particleCount; i++) {
         newParticles.push({
-          x: window.innerWidth - 100, // Approximate start pos (where rabbit was)
+          x: window.innerWidth - 100,
           y: window.innerHeight - 100,
           vx: (Math.random() - 0.5) * 4,
           vy: (Math.random() - 0.5) * 4,
@@ -62,6 +93,8 @@ export default function JadeRabbitOsmanthus() {
     canvas.height = window.innerHeight;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const isDarkMode = isDarkRef.current; // Read from ref
 
     particles.current.forEach(p => {
       // Move towards mouse with some ease/swarming
@@ -89,9 +122,20 @@ export default function JadeRabbitOsmanthus() {
       // Draw particle
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(255, 255, 255, ${p.alpha})`;
+
+      // Dynamic Color based on Theme
+      // Dark mode: White glow
+      // Light mode: Golden Osmanthus glow (Orange/Gold)
+      if (isDarkMode) {
+        ctx.fillStyle = `rgba(255, 255, 255, ${p.alpha})`;
+        ctx.shadowColor = "white";
+      } else {
+        // Pale Gold for light mode
+        ctx.fillStyle = `rgba(255, 225, 120, ${p.alpha})`;
+        ctx.shadowColor = "rgba(255, 200, 50, 0.6)";
+      }
+
       ctx.shadowBlur = 10;
-      ctx.shadowColor = "white";
       ctx.fill();
     });
 
@@ -105,12 +149,13 @@ export default function JadeRabbitOsmanthus() {
       cancelAnimationFrame(requestRef.current);
     }
     return () => cancelAnimationFrame(requestRef.current);
-  }, [mode, mousePos]); // dependency on mousePos to ensure access in closure if needed, but ref particles handles state
+  }, [mode, mousePos]);
 
+  if (!mounted) return null;
 
   return (
     <>
-      {/* Particle Canvas Layer */}
+      {/* Particle Canvas Layer - Remains Fixed to cover screen */}
       <AnimatePresence>
         {mode === 'particles' && (
           <motion.canvas
@@ -123,24 +168,26 @@ export default function JadeRabbitOsmanthus() {
         )}
       </AnimatePresence>
 
-      {/* Decorations Container */}
-      <div className="fixed bottom-0 w-full z-40 hidden lg:flex items-end justify-between px-4 pointer-events-none">
+      {/* Decorations Container - Now Absolute relative to Footer */}
+      {/* Positioned at bottom: 100% of the footer (sitting on top) */}
+      <div className="absolute bottom-full left-0 w-full h-0 z-40 hidden lg:flex items-end justify-between px-4 pointer-events-none">
 
-        {/* Jade Rabbit - Click to Disperse - LEFT SIDE */}
-        <div className="pointer-events-auto relative w-32 h-32 mb-12 ml-32">
+        {/* Jade Rabbit - Moves in from Left */}
+        <div className="pointer-events-auto relative w-32 h-32 mb-0 ml-32">
           <AnimatePresence>
             {mode === 'normal' && (
               <motion.div
                 className="w-full h-full cursor-pointer mix-blend-screen"
-                initial={{ opacity: 0, scale: 0.8, x: -20 }}
-                animate={{ opacity: 1, scale: 1, x: 0 }}
+                initial={{ opacity: 0, x: -100 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: false, amount: 0.5 }}
                 exit={{ opacity: 0, scale: 0, filter: "blur(20px)" }}
-                transition={{ duration: 0.5 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
                 onClick={() => setMode('particles')}
                 whileHover={{ scale: 1.1, filter: "drop-shadow(0 0 10px white)" }}
               >
                 <Image
-                  src="/images/decorations/jade_rabbit.png"
+                  src={isDark ? "/images/decorations/jade_rabbit2.png" : "/images/decorations/jade_rabbit.png"}
                   alt="Jade Rabbit"
                   fill
                   className="object-contain"
@@ -150,19 +197,27 @@ export default function JadeRabbitOsmanthus() {
           </AnimatePresence>
         </div>
 
-        {/* Osmanthus Tree - Click to Restore - RIGHT SIDE */}
+        {/* Osmanthus Tree - Grows from Bottom */}
         <div
-          className="pointer-events-auto relative w-64 h-80 -mr-8 translate-y-8 cursor-pointer hover:scale-105 transition-transform duration-500 origin-bottom"
+          className="pointer-events-auto relative w-64 h-80 mr-32 translate-y-10 cursor-pointer origin-bottom"
           onClick={() => setMode('normal')}
           title="Click the tree to call the rabbit back"
         >
-          <Image
-            src="/images/decorations/osmanthus_tree.png"
-            alt="Osmanthus Tree"
-            fill
-            className="object-contain drop-shadow-[0_0_15px_rgba(255,215,0,0.3)] mix-blend-screen"
-          />
-          {/* Falling petals effect could be added here later */}
+          <motion.div
+            className="w-full h-full"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 0.8 }}
+            viewport={{ once: false, amount: 0.1 }}
+            transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
+            whileHover={{ scale: 1.05, opacity: 1 }}
+          >
+            <Image
+              src="/images/decorations/osmanthus_tree.png"
+              alt="Osmanthus Tree"
+              fill
+              className="object-contain drop-shadow-[0_0_15px_rgba(255,215,0,0.3)] mix-blend-screen"
+            />
+          </motion.div>
         </div>
       </div>
     </>
