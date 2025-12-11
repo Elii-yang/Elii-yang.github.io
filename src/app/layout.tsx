@@ -2,6 +2,7 @@ import Footer from "@/components/layout/Footer";
 import Navigation from "@/components/layout/Navigation";
 import BackToTop from "@/components/ui/BackToTop";
 import { GlobalLoading } from "@/components/ui/GlobalLoading";
+import JadeRabbitOsmanthus from "@/components/ui/InteractiveDecorations/JadeRabbitOsmanthus";
 import { ThemeProvider } from "@/components/ui/ThemeProvider";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { getConfig } from "@/lib/config";
@@ -116,6 +117,7 @@ export default function RootLayout({
             </main>
             <Footer />
             <BackToTop />
+            <JadeRabbitOsmanthus />
           </ThemeProvider>
         </LanguageProvider>
       </body>
