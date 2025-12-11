@@ -184,7 +184,7 @@ export default function JadeRabbitOsmanthus() {
                 exit={{ opacity: 0, scale: 0, filter: "blur(20px)" }}
                 transition={{ duration: 0.8, ease: "easeOut" }}
                 onClick={() => setMode('particles')}
-                whileHover={{ scale: 1.1, filter: "drop-shadow(0 0 10px white)" }}
+                whileHover={{ scale: 1.1, filter: "drop-shadow(0 0 15px rgba(255, 223, 128, 0.8))" }}
               >
                 <Image
                   src={isDark ? "/images/decorations/jade_rabbit2.png" : "/images/decorations/jade_rabbit.png"}
@@ -209,7 +209,7 @@ export default function JadeRabbitOsmanthus() {
             whileInView={{ opacity: 0.8 }}
             viewport={{ once: false, amount: 0.1 }}
             transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
-            whileHover={{ scale: 1.05, opacity: 1, filter: "drop-shadow(0 0 10px white)" }}
+            whileHover={{ scale: 1.05, opacity: 1, filter: "drop-shadow(0 0 15px rgba(255, 223, 128, 0.8))" }}
           >
             <Image
               src="/images/decorations/osmanthus_tree.png"
