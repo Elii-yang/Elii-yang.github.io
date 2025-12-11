@@ -26,6 +26,24 @@ export const translations = {
     selectedPublications: { en: 'Selected Publications', zh: '精选论文' },
     latestProjects: { en: 'Latest Projects', zh: '最新项目' },
     latestResources: { en: 'Latest Resources', zh: '最新资源' },
+    cv: { en: 'CV', zh: '简历' },
+    resources: { en: 'Resources', zh: '资源' },
+    projects: { en: 'Projects', zh: '项目' },
+    publications: { en: 'Publications', zh: '论文' },
+  },
+  descriptions: {
+    resources: {
+      en: 'Useful resources including notes, presentations, and software packages',
+      zh: '包括笔记、演示文稿和软件包的实用资源'
+    },
+    projects: {
+      en: 'Academic and research projects',
+      zh: '学术和研究项目'
+    },
+    publications: {
+      en: 'My academic publications and research papers',
+      zh: '我的学术出版物和研究论文'
+    },
   },
   common: {
     showMore: { en: 'Show More', zh: '展开更多' },

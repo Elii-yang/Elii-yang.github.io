@@ -1,5 +1,7 @@
 'use client';
 
+import { useLanguage } from '@/contexts/LanguageContext';
+import { getTranslation } from '@/lib/translations';
 import { cn } from '@/lib/utils';
 import { PublicationPageConfig } from '@/types/page';
 import { Publication } from '@/types/publication';
@@ -22,6 +24,16 @@ interface PublicationsListProps {
 }
 
 export default function PublicationsList({ config, publications, embedded = false }: PublicationsListProps) {
+    const { language } = useLanguage();
+
+    // Translate title and description
+    const pageTitle = config.title === 'Publications'
+        ? getTranslation(language, 'sections', 'publications')
+        : config.title;
+
+    const pageDescription = config.title === 'Publications'
+        ? getTranslation(language, 'descriptions', 'publications')
+        : config.description;
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedYear, setSelectedYear] = useState<number | 'all'>('all');
     const [selectedType, setSelectedType] = useState<string | 'all'>('all');
@@ -61,12 +73,16 @@ export default function PublicationsList({ config, publications, embedded = fals
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
+            className={embedded ? "" : ""}
         >
-            <div className="mb-8">
-                <h1 className={`${embedded ? "text-2xl" : "text-4xl"} font-serif font-bold text-primary mb-4`}>{config.title}</h1>
-                {config.description && (
+            {/* Header */}
+            <div className={embedded ? "mb-4" : "mb-8"}>
+                <h1 className={`${embedded ? "text-2xl" : "text-4xl"} font-serif font-bold text-primary mb-4`}>
+                    {pageTitle}
+                </h1>
+                {pageDescription && (
                     <p className={`${embedded ? "text-base" : "text-lg"} text-neutral-600 dark:text-neutral-500 max-w-2xl`}>
-                        {config.description}
+                        {pageDescription}
                     </p>
                 )}
             </div>

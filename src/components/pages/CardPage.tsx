@@ -1,11 +1,27 @@
 'use client';
 
+import { useLanguage } from '@/contexts/LanguageContext';
+import { getTranslation } from '@/lib/translations';
 import { CardPageConfig } from '@/types/page';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import ReactMarkdown from 'react-markdown';
 
 export default function CardPage({ config, embedded = false }: { config: CardPageConfig; embedded?: boolean }) {
+    const { language } = useLanguage();
+
+    // Translate title and description for Resources and Projects pages
+    let pageTitle = config.title;
+    let pageDescription = config.description;
+
+    if (config.title === 'Resources') {
+        pageTitle = getTranslation(language, 'sections', 'resources');
+        pageDescription = getTranslation(language, 'descriptions', 'resources');
+    } else if (config.title === 'Projects') {
+        pageTitle = getTranslation(language, 'sections', 'projects');
+        pageDescription = getTranslation(language, 'descriptions', 'projects');
+    }
+
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -13,10 +29,10 @@ export default function CardPage({ config, embedded = false }: { config: CardPag
             transition={{ duration: 0.6, delay: 0.4 }}
         >
             <div className={embedded ? "mb-4" : "mb-8"}>
-                <h1 className={`${embedded ? "text-2xl" : "text-4xl"} font-serif font-bold text-primary mb-4`}>{config.title}</h1>
-                {config.description && (
+                <h1 className={`${embedded ? "text-2xl" : "text-4xl"} font-serif font-bold text-primary mb-4`}>{pageTitle}</h1>
+                {pageDescription && (
                     <p className={`${embedded ? "text-base" : "text-lg"} text-neutral-600 dark:text-neutral-500 max-w-2xl`}>
-                        {config.description}
+                        {pageDescription}
                     </p>
                 )}
             </div>

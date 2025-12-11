@@ -1,6 +1,7 @@
 'use client';
 
 import { useLanguage } from '@/contexts/LanguageContext';
+import { getTranslation } from '@/lib/translations';
 import { TextPageConfig } from '@/types/page';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
@@ -19,6 +20,11 @@ export default function TextPage({ config, content, contentZh, embedded = false 
 
     // Use Chinese content if available and language is zh
     const currentContent = (language === 'zh' && contentZh) ? contentZh : content;
+
+    // Translate page title if it's CV
+    const pageTitle = config.title === 'CV'
+        ? getTranslation(language, 'sections', 'cv')
+        : config.title;
 
     // Check if this is CV page and extract profile section
     const isCVPage = config.title === 'CV';
@@ -40,7 +46,7 @@ export default function TextPage({ config, content, contentZh, embedded = false 
             transition={{ duration: 0.6, delay: 0.4 }}
             className={embedded ? "" : "max-w-3xl mx-auto"}
         >
-            <h1 className={`${embedded ? "text-2xl" : "text-4xl"} font-serif font-bold text-primary mb-4`}>{config.title}</h1>
+            <h1 className={`${embedded ? "text-2xl" : "text-4xl"} font-serif font-bold text-primary mb-4`}>{pageTitle}</h1>
             {config.description && (
                 <p className={`${embedded ? "text-base" : "text-lg"} text-neutral-600 dark:text-neutral-500 mb-8 max-w-2xl`}>
                     {config.description}
