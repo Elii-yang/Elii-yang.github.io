@@ -1,5 +1,6 @@
 'use client';
 
+import { useLanguage } from '@/contexts/LanguageContext';
 import { TextPageConfig } from '@/types/page';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
@@ -8,20 +9,27 @@ import ReactMarkdown from 'react-markdown';
 interface TextPageProps {
     config: TextPageConfig;
     content: string;
+    contentZh?: string; // Chinese version of content
     embedded?: boolean;
 }
 
-export default function TextPage({ config, content, embedded = false }: TextPageProps) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export default function TextPage({ config, content, contentZh, embedded = false }: TextPageProps) {
+    const { language } = useLanguage();
+
+    // Use Chinese content if available and language is zh
+    const currentContent = (language === 'zh' && contentZh) ? contentZh : content;
+
     // Check if this is CV page and extract profile section
     const isCVPage = config.title === 'CV';
     let profileSection = '';
-    let mainContent = content;
+    let mainContent = currentContent;
 
     if (isCVPage) {
-        const profileMatch = content.match(/<!-- PROFILE_START -->([\s\S]*?)<!-- PROFILE_END -->/);
+        const profileMatch = currentContent.match(/<!-- PROFILE_START -->([\s\S]*?)<!-- PROFILE_END -->/);
         if (profileMatch) {
             profileSection = profileMatch[1].trim();
-            mainContent = content.replace(/<!-- PROFILE_START -->[\s\S]*?<!-- PROFILE_END -->\n\n/, '');
+            mainContent = currentContent.replace(/<!-- PROFILE_START -->[\s\S]*?<!-- PROFILE_END -->\n\n/, '');
         }
     }
 

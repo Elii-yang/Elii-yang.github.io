@@ -1,16 +1,16 @@
-import { notFound } from 'next/navigation';
-import { getPageConfig, getMarkdownContent, getBibtexContent } from '@/lib/content';
-import { getConfig } from '@/lib/config';
-import { parseBibTeX } from '@/lib/bibtexParser';
-import PublicationsList from '@/components/publications/PublicationsList';
-import TextPage from '@/components/pages/TextPage';
 import CardPage from '@/components/pages/CardPage';
+import TextPage from '@/components/pages/TextPage';
+import PublicationsList from '@/components/publications/PublicationsList';
+import { parseBibTeX } from '@/lib/bibtexParser';
+import { getConfig } from '@/lib/config';
+import { getBibtexContent, getMarkdownContent, getPageConfig } from '@/lib/content';
 import {
     BasePageConfig,
+    CardPageConfig,
     PublicationPageConfig,
-    TextPageConfig,
-    CardPageConfig
+    TextPageConfig
 } from '@/types/page';
+import { notFound } from 'next/navigation';
 
 import { Metadata } from 'next';
 
@@ -68,5 +68,15 @@ function PublicationPage({ config }: { config: PublicationPageConfig }) {
 
 function TextPageWrapper({ config }: { config: TextPageConfig }) {
     const content = getMarkdownContent(config.source);
-    return <TextPage config={config} content={content} />;
+    // Try to load Chinese version if exists
+    const sourceWithoutExt = config.source.replace(/\.md$/, '');
+    const zhSource = `${sourceWithoutExt}_zh.md`;
+    let contentZh = '';
+    try {
+        contentZh = getMarkdownContent(zhSource);
+    } catch {
+        // If Chinese version doesn't exist, use English version
+        contentZh = content;
+    }
+    return <TextPage config={config} content={content} contentZh={contentZh} />;
 }
