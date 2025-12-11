@@ -8,6 +8,7 @@ interface LanguageContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
   t: (key: string) => string;
+  isLoading: boolean;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
@@ -15,6 +16,7 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [language, setLanguageState] = useState<Language>('en');
   const [mounted, setMounted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -25,8 +27,13 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const setLanguage = (lang: Language) => {
-    setLanguageState(lang);
-    localStorage.setItem('preferred-language', lang);
+    setIsLoading(true);
+    // Simulate loading delay for smoother transition feel
+    setTimeout(() => {
+      setLanguageState(lang);
+      localStorage.setItem('preferred-language', lang);
+      setIsLoading(false);
+    }, 200);
   };
 
   const t = (key: string) => {
@@ -34,11 +41,11 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   };
 
   if (!mounted) {
-    return <LanguageContext.Provider value={{ language: 'en', setLanguage, t }}>{children}</LanguageContext.Provider>;
+    return <LanguageContext.Provider value={{ language: 'en', setLanguage, t, isLoading: false }}>{children}</LanguageContext.Provider>;
   }
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, t }}>
+    <LanguageContext.Provider value={{ language, setLanguage, t, isLoading }}>
       {children}
     </LanguageContext.Provider>
   );
