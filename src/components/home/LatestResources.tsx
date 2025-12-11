@@ -25,6 +25,7 @@ interface LatestResourcesProps {
 export default function LatestResources({ resources, title: _title = 'Latest Resources', enableOnePageMode = false }: LatestResourcesProps) {
     const { language } = useLanguage();
     const translatedTitle = getTranslation(language, 'sections', 'latestResources');
+    const viewAllText = getTranslation(language, 'common', 'viewAll');
     return (
         <motion.section
             initial={{ opacity: 0, y: 20 }}
@@ -38,7 +39,7 @@ export default function LatestResources({ resources, title: _title = 'Latest Res
                     prefetch={true}
                     className="text-accent hover:text-accent-dark text-sm font-medium transition-all duration-200 rounded hover:bg-accent/10 hover:shadow-sm"
                 >
-                    View All &rarr;
+                    {viewAllText} &rarr;
                 </Link>
             </div>
             <div className="space-y-4">

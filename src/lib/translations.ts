@@ -48,6 +48,7 @@ export const translations = {
   common: {
     showMore: { en: 'Show More', zh: '展开更多' },
     showLess: { en: 'Show Less', zh: '收起' },
+    viewAll: { en: 'View All', zh: '查看全部' },
   }
 } as const;
 

@@ -24,6 +24,7 @@ interface LatestProjectsProps {
 export default function LatestProjects({ projects, title: _title = 'Latest Projects', enableOnePageMode = false }: LatestProjectsProps) {
     const { language } = useLanguage();
     const translatedTitle = getTranslation(language, 'sections', 'latestProjects');
+    const viewAllText = getTranslation(language, 'common', 'viewAll');
     return (
         <motion.section
             initial={{ opacity: 0, y: 20 }}
@@ -37,7 +38,7 @@ export default function LatestProjects({ projects, title: _title = 'Latest Proje
                     prefetch={true}
                     className="text-accent hover:text-accent-dark text-sm font-medium transition-all duration-200 rounded hover:bg-accent/10 hover:shadow-sm"
                 >
-                    View All &rarr;
+                    {viewAllText} &rarr;
                 </Link>
             </div>
             <div className="space-y-4">
