@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { resolveTheme, useThemeStore } from '@/lib/stores/themeStore';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -57,11 +57,12 @@ export default function JadeRabbitOsmanthus() {
   // Track scroll position to show indicator when scrolled down
   useEffect(() => {
     const handleScroll = () => {
+      // Show arrow when scrolled down more than 300px
       setShowScrollIndicator(window.scrollY > 300);
     };
 
     window.addEventListener('scroll', handleScroll);
-    handleScroll();
+    handleScroll(); // Initial check
 
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -191,7 +192,7 @@ export default function JadeRabbitOsmanthus() {
 
       {/* Decorations Container - Now Absolute relative to Footer */}
       {/* Positioned at bottom: 100% of the footer (sitting on top) */}
-      <div className="absolute bottom-full left-0 w-full h-0 z-0 hidden lg:flex items-end justify-between px-4 pointer-events-none">
+      <div className="absolute bottom-full left-0 w-full h-0 z-40 hidden lg:flex items-end justify-between px-4 pointer-events-none">
 
         {/* Jade Rabbit - Moves in from Left */}
         <div className="pointer-events-auto relative w-32 h-32 mb-0 ml-32">
@@ -223,7 +224,7 @@ export default function JadeRabbitOsmanthus() {
           <div
             className="pointer-events-auto relative w-64 h-80 mr-12 translate-y-10 cursor-pointer origin-bottom"
             onClick={handleTreeClick}
-            title="Click to scroll to top"
+            title="Click to scroll to top & call rabbit"
           >
             <motion.div
               className="w-full h-full"
@@ -242,6 +243,7 @@ export default function JadeRabbitOsmanthus() {
             </motion.div>
           </div>
 
+          {/* Arrow Indicator when scrolled down */}
           <AnimatePresence>
             {showScrollIndicator && (
               <motion.div
@@ -258,7 +260,9 @@ export default function JadeRabbitOsmanthus() {
                   viewBox="0 0 24 48"
                   fill="currentColor"
                 >
+                  {/* ϸ������ */}
                   <rect x="11" y="12" width="2" height="32" rx="1" />
+                  {/* С��ͷ */}
                   <path d="M12 8 L8 14 L16 14 Z" />
                 </svg>
               </motion.div>

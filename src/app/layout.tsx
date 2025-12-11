@@ -1,6 +1,5 @@
 import Footer from "@/components/layout/Footer";
 import Navigation from "@/components/layout/Navigation";
-import BackToTop from "@/components/ui/BackToTop";
 import { GlobalLoading } from "@/components/ui/GlobalLoading";
 import { ThemeProvider } from "@/components/ui/ThemeProvider";
 import { LanguageProvider } from "@/contexts/LanguageContext";
@@ -115,7 +114,6 @@ export default function RootLayout({
               {children}
             </main>
             <Footer />
-            <BackToTop />
           </ThemeProvider>
         </LanguageProvider>
       </body>
