@@ -1,5 +1,7 @@
 'use client';
 
+import { useLanguage } from '@/contexts/LanguageContext';
+import { getTranslation } from '@/lib/translations';
 import { Publication } from '@/types/publication';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
@@ -11,6 +13,8 @@ interface SelectedPublicationsProps {
 }
 
 export default function SelectedPublications({ publications, title = 'Selected Publications', enableOnePageMode = false }: SelectedPublicationsProps) {
+    const { language } = useLanguage();
+    const translatedTitle = getTranslation(language, 'sections', 'selectedPublications');
     return (
         <motion.section
             initial={{ opacity: 0, y: 20 }}
@@ -18,7 +22,7 @@ export default function SelectedPublications({ publications, title = 'Selected P
             transition={{ duration: 0.6, delay: 0.4 }}
         >
             <div className="flex items-center justify-between mb-2">
-                <h2 className="text-2xl font-serif font-bold text-primary">{title}</h2>
+                <h2 className="text-2xl font-serif font-bold text-primary">{translatedTitle}</h2>
                 <Link
                     href={enableOnePageMode ? "/#publications" : "/publications"}
                     prefetch={true}

@@ -1,5 +1,7 @@
 'use client';
 
+import { useLanguage } from '@/contexts/LanguageContext';
+import { getTranslation } from '@/lib/translations';
 import { motion } from 'framer-motion';
 import { Download } from 'lucide-react';
 import Link from 'next/link';
@@ -20,6 +22,8 @@ interface LatestResourcesProps {
 }
 
 export default function LatestResources({ resources, title = 'Latest Resources', enableOnePageMode = false }: LatestResourcesProps) {
+    const { language } = useLanguage();
+    const translatedTitle = getTranslation(language, 'sections', 'latestResources');
     return (
         <motion.section
             initial={{ opacity: 0, y: 20 }}
@@ -27,7 +31,7 @@ export default function LatestResources({ resources, title = 'Latest Resources',
             transition={{ duration: 0.6, delay: 0.7 }}
         >
             <div className="flex items-center justify-between mb-2">
-                <h2 className="text-2xl font-serif font-bold text-primary">{title}</h2>
+                <h2 className="text-2xl font-serif font-bold text-primary">{translatedTitle}</h2>
                 <Link
                     href={enableOnePageMode ? "/#resources" : "/resources"}
                     prefetch={true}

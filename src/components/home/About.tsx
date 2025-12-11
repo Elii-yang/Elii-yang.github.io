@@ -1,5 +1,7 @@
 'use client';
 
+import { useLanguage } from '@/contexts/LanguageContext';
+import { getTranslation } from '@/lib/translations';
 import { motion } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
 
@@ -9,6 +11,8 @@ interface AboutProps {
 }
 
 export default function About({ content, title = 'About' }: AboutProps) {
+    const { language } = useLanguage();
+    const translatedTitle = getTranslation(language, 'sections', 'about');
     return (
         <motion.section
             initial={{ opacity: 0, y: 20 }}
@@ -16,7 +20,7 @@ export default function About({ content, title = 'About' }: AboutProps) {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="relative"
         >
-            <h2 className="text-2xl font-serif font-bold text-primary mb-2">{title}</h2>
+            <h2 className="text-2xl font-serif font-bold text-primary mb-2">{translatedTitle}</h2>
 
             <div className="relative group">
                 {/* Background gradient effects */}

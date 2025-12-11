@@ -2,6 +2,7 @@ import Footer from "@/components/layout/Footer";
 import Navigation from "@/components/layout/Navigation";
 import BackToTop from "@/components/ui/BackToTop";
 import { ThemeProvider } from "@/components/ui/ThemeProvider";
+import { LanguageProvider } from "@/contexts/LanguageContext";
 import { getConfig } from "@/lib/config";
 import type { Metadata } from "next";
 import "./globals.css";
@@ -101,18 +102,20 @@ export default function RootLayout({
         />
       </head>
       <body className={`font-sans antialiased`}>
-        <ThemeProvider>
-          <Navigation
-            items={config.navigation}
-            siteTitle={config.site.title}
-            enableOnePageMode={config.features.enable_one_page_mode}
-          />
-          <main className="min-h-screen pt-16 lg:pt-20">
-            {children}
-          </main>
-          <Footer />
-          <BackToTop />
-        </ThemeProvider>
+        <LanguageProvider>
+          <ThemeProvider>
+            <Navigation
+              items={config.navigation}
+              siteTitle={config.site.title}
+              enableOnePageMode={config.features.enable_one_page_mode}
+            />
+            <main className="min-h-screen pt-16 lg:pt-20">
+              {children}
+            </main>
+            <Footer />
+            <BackToTop />
+          </ThemeProvider>
+        </LanguageProvider>
       </body>
     </html>
   );

@@ -1,5 +1,7 @@
 'use client';
 
+import { useLanguage } from '@/contexts/LanguageContext';
+import { getTranslation } from '@/lib/translations';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -19,6 +21,8 @@ interface LatestProjectsProps {
 }
 
 export default function LatestProjects({ projects, title = 'Latest Projects', enableOnePageMode = false }: LatestProjectsProps) {
+    const { language } = useLanguage();
+    const translatedTitle = getTranslation(language, 'sections', 'latestProjects');
     return (
         <motion.section
             initial={{ opacity: 0, y: 20 }}
@@ -26,7 +30,7 @@ export default function LatestProjects({ projects, title = 'Latest Projects', en
             transition={{ duration: 0.6, delay: 0.6 }}
         >
             <div className="flex items-center justify-between mb-2">
-                <h2 className="text-2xl font-serif font-bold text-primary">{title}</h2>
+                <h2 className="text-2xl font-serif font-bold text-primary">{translatedTitle}</h2>
                 <Link
                     href={enableOnePageMode ? "/#projects" : "/projects"}
                     prefetch={true}

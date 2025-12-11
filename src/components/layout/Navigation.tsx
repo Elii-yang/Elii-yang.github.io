@@ -1,7 +1,10 @@
 'use client';
 
+import { LanguageToggle } from '@/components/ui/LanguageToggle';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { SiteConfig } from '@/lib/config';
+import { getTranslation } from '@/lib/translations';
 import { cn } from '@/lib/utils';
 import { Disclosure } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
@@ -20,6 +23,10 @@ export default function Navigation({ items, siteTitle, enableOnePageMode }: Navi
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [activeHash, setActiveHash] = useState('');
+  const { language } = useLanguage();
+
+  // Translate site title (author name)
+  const translatedSiteTitle = getTranslation(language, 'author', 'name');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -105,7 +112,7 @@ export default function Navigation({ items, siteTitle, enableOnePageMode }: Navi
                     href="/"
                     className="text-xl lg:text-2xl font-serif font-semibold text-primary hover:text-accent transition-colors duration-200"
                   >
-                    {siteTitle}
+                    {translatedSiteTitle}
                   </Link>
                 </motion.div>
 
@@ -137,7 +144,7 @@ export default function Navigation({ items, siteTitle, enableOnePageMode }: Navi
                                 : 'text-neutral-700 dark:text-neutral-300 hover:text-primary'
                             )}
                           >
-                            <span className="relative z-10">{item.title}</span>
+                            <span className="relative z-10">{getTranslation(language, 'navigation', item.target)}</span>
                             {isActive && (
                               <motion.div
                                 layoutId="activeTab"
@@ -154,12 +161,14 @@ export default function Navigation({ items, siteTitle, enableOnePageMode }: Navi
                         );
                       })}
                     </div>
+                    <LanguageToggle />
                     <ThemeToggle />
                   </div>
                 </div>
 
-                {/* Mobile menu button and theme toggle */}
+                {/* Mobile menu button, language toggle and theme toggle */}
                 <div className="lg:hidden flex items-center space-x-2">
+                  <LanguageToggle />
                   <ThemeToggle />
                   <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-neutral-600 hover:text-primary hover:bg-neutral-100 dark:hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-accent transition-colors duration-200">
                     <span className="sr-only">Open main menu</span>
@@ -221,7 +230,7 @@ export default function Navigation({ items, siteTitle, enableOnePageMode }: Navi
                                 : 'text-neutral-600 hover:text-primary hover:bg-neutral-50'
                             )}
                           >
-                            {item.title}
+                            {getTranslation(language, 'navigation', item.target)}
                           </Disclosure.Button>
                         </motion.div>
                       );

@@ -1,5 +1,7 @@
 ﻿'use client';
 
+import { useLanguage } from '@/contexts/LanguageContext';
+import { getTranslation } from '@/lib/translations';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { useState } from 'react';
@@ -15,8 +17,12 @@ interface NewsProps {
 }
 
 export default function News({ items, title = 'Latest News' }: NewsProps) {
+    const { language } = useLanguage();
     const [isExpanded, setIsExpanded] = useState(false);
     const hasMoreNews = items.length > 1;
+    const translatedTitle = getTranslation(language, 'sections', 'news');
+    const showMoreText = getTranslation(language, 'common', 'showMore');
+    const showLessText = getTranslation(language, 'common', 'showLess');
 
     return (
         <motion.section
@@ -24,7 +30,7 @@ export default function News({ items, title = 'Latest News' }: NewsProps) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.5 }}
         >
-            <h2 className="text-2xl font-serif font-bold text-primary mb-2">{title}</h2>
+            <h2 className="text-2xl font-serif font-bold text-primary mb-2">{translatedTitle}</h2>
 
             <div className="relative group">
                 {/* Background gradient effects */}
@@ -139,7 +145,7 @@ export default function News({ items, title = 'Latest News' }: NewsProps) {
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                         >
-                            <span>{isExpanded ? 'Show Less' : `Show More (${items.length - 1})`}</span>
+                            <span>{isExpanded ? showLessText : `${showMoreText} (${items.length - 1})`}</span>
                             {isExpanded ? (
                                 <ChevronUp className="h-4 w-4" />
                             ) : (
