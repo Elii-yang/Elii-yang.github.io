@@ -25,9 +25,19 @@ export default function JadeRabbitOsmanthus() {
   const [mode, setMode] = useState<'normal' | 'particles'>('normal');
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [showScrollIndicator, setShowScrollIndicator] = useState(false);
+  const [showFlame, setShowFlame] = useState(true);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const requestRef = useRef<number>(0);
   const particles = useRef<Particle[]>([]);
+
+  // Toggle between flame and arrow periodically
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setShowFlame(prev => !prev);
+    }, 3000); // Switch every 3 seconds
+
+    return () => clearInterval(interval);
+  }, []);
 
   // Fix hydration mismatch and handle theme resolution
   useEffect(() => {
@@ -242,25 +252,152 @@ export default function JadeRabbitOsmanthus() {
             </motion.div>
           </div>
 
-          <AnimatePresence>
+          <AnimatePresence mode="wait">
             {showScrollIndicator && (
               <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 10 }}
+                key="indicator-container"
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 0.6, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.5 }}
                 transition={{ duration: 0.5 }}
-                className="absolute right-0 bottom-4 mr-6 text-accent/70 dark:text-accent/50 animate-bounce pointer-events-none"
+                className="absolute right-12 bottom-16 pointer-events-none"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="28"
-                  height="72"
-                  viewBox="0 0 24 48"
-                  fill="currentColor"
-                >
-                  <rect x="11" y="12" width="2" height="32" rx="1" />
-                  <path d="M12 8 L8 14 L16 14 Z" />
-                </svg>
+                <AnimatePresence mode="wait">
+                  {showFlame ? (
+                    // Flame icon
+                    <motion.div
+                      key="flame"
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.8 }}
+                      transition={{ duration: 0.4 }}
+                    >
+                      <motion.div
+                        animate={{
+                          scale: [1, 1.1, 0.95, 1.05, 1],
+                          y: [0, -3, 0, -2, 0],
+                        }}
+                        transition={{
+                          duration: 1.5,
+                          repeat: Infinity,
+                          ease: "easeInOut"
+                        }}
+                        className="relative"
+                      >
+                        {/* Outer glow */}
+                        <div className="absolute inset-0 blur-lg opacity-70">
+                          <svg
+                            width="36"
+                            height="36"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <defs>
+                              <linearGradient id="flameGlowGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" stopColor="#FDE68A" />
+                                <stop offset="50%" stopColor="#FBBF24" />
+                                <stop offset="100%" stopColor="#F59E0B" />
+                              </linearGradient>
+                            </defs>
+                            <path
+                              d="M12 2C12 2 8 6 8 10C8 12.2091 9.79086 14 12 14C14.2091 14 16 12.2091 16 10C16 6 12 2 12 2Z"
+                              fill="url(#flameGlowGradient)"
+                            />
+                            <path
+                              d="M12 6C12 6 10 8.5 10 10.5C10 11.8807 11.1193 13 12.5 13C13.8807 13 15 11.8807 15 10.5C15 8.5 12 6 12 6Z"
+                              fill="#FEF3C7"
+                              opacity="0.6"
+                            />
+                          </svg>
+                        </div>
+
+                        {/* Main flame */}
+                        <svg
+                          width="36"
+                          height="36"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="relative drop-shadow-xl"
+                        >
+                          <defs>
+                            <linearGradient id="flameGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                              <stop offset="0%" stopColor="#FEF3C7" />
+                              <stop offset="30%" stopColor="#FCD34D" />
+                              <stop offset="60%" stopColor="#FBBF24" />
+                              <stop offset="100%" stopColor="#F59E0B" />
+                            </linearGradient>
+                          </defs>
+                          {/* Outer flame */}
+                          <path
+                            d="M12 2C12 2 8 6 8 10C8 12.2091 9.79086 14 12 14C14.2091 14 16 12.2091 16 10C16 6 12 2 12 2Z"
+                            fill="url(#flameGradient)"
+                          />
+                          {/* Inner flame */}
+                          <path
+                            d="M12 6C12 6 10 8.5 10 10.5C10 11.8807 11.1193 13 12.5 13C13.8807 13 15 11.8807 15 10.5C15 8.5 12 6 12 6Z"
+                            fill="#FEF9E7"
+                          />
+                        </svg>
+                      </motion.div>
+                    </motion.div>
+                  ) : (
+                    // Arrow icon
+                    <motion.div
+                      key="arrow"
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.8 }}
+                      transition={{ duration: 0.4 }}
+                    >
+                      <motion.div
+                        animate={{
+                          y: [0, -8, 0],
+                        }}
+                        transition={{
+                          duration: 2,
+                          repeat: Infinity,
+                          ease: "easeInOut"
+                        }}
+                        className="relative"
+                      >
+                        {/* Glow effect */}
+                        <div className="absolute inset-0 blur-md opacity-60">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="36"
+                            height="36"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            className="text-amber-400"
+                            strokeWidth="2.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <path d="M12 19V5M5 12l7-7 7 7" />
+                          </svg>
+                        </div>
+                        {/* Main arrow */}
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="36"
+                          height="36"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          className="relative text-amber-500 drop-shadow-lg"
+                          strokeWidth="2.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path d="M12 19V5M5 12l7-7 7 7" />
+                        </svg>
+                      </motion.div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </motion.div>
             )}
           </AnimatePresence>
